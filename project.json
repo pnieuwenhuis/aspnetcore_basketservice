@@ -1,0 +1,28 @@
+{
+    "version": "1.0.0-*",
+    "buildOptions": {
+        "debugType": "portable",
+        "emitEntryPoint": true
+    },
+
+    "frameworks": {
+        "netcoreapp1.0": {
+            "dependencies": {
+                "Akka": "1.2.0-alpha1",
+                "Microsoft.AspNetCore.Hosting": "1.0.0",
+                "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
+                "Microsoft.AspNetCore.Owin": "1.0.0",
+                "Microsoft.Extensions.Configuration.Json": "1.0.0",
+                "Microsoft.Extensions.Configuration.Binder": "1.0.0",
+                "Microsoft.AspNetCore.Mvc.Core": "1.0.1",
+                "Microsoft.AspNetCore.Mvc.Formatters.Json": "1.0.1",
+                "Serilog.Extensions.Logging": "1.2.0",
+                "Serilog.Sinks.Literate": "2.0.0",
+                "Microsoft.NETCore.App": {
+                    "type": "platform",
+                    "version": "1.0.1"
+                }
+            }
+        }
+    }
+}

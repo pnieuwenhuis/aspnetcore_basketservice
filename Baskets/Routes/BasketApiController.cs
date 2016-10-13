@@ -1,6 +1,4 @@
-using Akka.Actor;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 
 namespace BasketService.Baskets.Routes

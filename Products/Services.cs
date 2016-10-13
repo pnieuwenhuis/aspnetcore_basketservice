@@ -8,6 +8,7 @@ namespace BasketService.Products
         {
             services.AddSingleton<ProductsActorProvider>();
             services.AddSingleton<Routes.GetProduct>();
+            services.AddSingleton<Routes.GetAllProducts>();
         }
     }
 }

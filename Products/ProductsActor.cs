@@ -4,30 +4,8 @@ using Akka.Actor;
 
 namespace BasketService.Products
 {
-    public class ProductsActor : ReceiveActor
+    public partial class ProductsActor : ReceiveActor
     {
-        #region Messages
-
-        public class GetProduct
-        {
-            public int ProductId { get; set; }
-        }
-
-        #endregion
-
-        #region Events
-
-        public abstract class ProductEvent {}
-
-        public class ProductFound : ProductEvent
-        {
-            public Product Product { get; set; }
-        }
-
-        public class ProductNotFound : ProductEvent {}
-
-        #endregion
-
         private IEnumerable<Product> Products { get; set; }
         public ProductsActor()
         {
@@ -35,6 +13,8 @@ namespace BasketService.Products
             this.Products = SampleData.Get();
 
             Receive<GetProduct>(m => Sender.Tell(GetProductAction(m)));
+            Receive<GetAllProducts>(_ => Sender.Tell(this.Products));
+            Receive<UpdateStock>(m => Sender.Tell(UpdateStockAction(m)));
         }
 
         public ProductEvent GetProductAction(GetProduct message)
@@ -45,6 +25,27 @@ namespace BasketService.Products
             return product is Product ?
                 new ProductFound { Product = product } as ProductEvent :
                 new ProductNotFound() as ProductEvent;
+        }
+
+        public ProductEvent UpdateStockAction(UpdateStock message)
+        {
+            var product = this.Products
+                .FirstOrDefault(p => p.Id == message.ProductId);
+
+            if (product is Product)
+            {
+                if (product.InStock + message.AmountChanged >= 0)
+                {
+                    product.InStock += message.AmountChanged;
+                    return new StockUpdated { InStock = product.InStock };
+                }
+                else
+                {
+                    return new InsuffientStock();
+                }
+            }
+
+            return new ProductNotFound();
         }
     }
 }

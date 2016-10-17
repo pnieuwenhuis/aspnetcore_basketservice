@@ -7,7 +7,6 @@ namespace BasketService.Products
         public static void AddProductServices(this IServiceCollection services)
         {
             services.AddSingleton<ProductsActorProvider>();
-            services.AddSingleton<Routes.GetProduct>();
             services.AddSingleton<Routes.GetAllProducts>();
         }
     }

@@ -7,7 +7,10 @@ namespace BasketService.Baskets
         public static void AddBasketServices(this IServiceCollection services)
         {
             services.AddSingleton<BasketsActorProvider>();
+
             services.AddSingleton<Routes.GetBasket>();
+            services.AddSingleton<Routes.AddItemToBasket>();
+            services.AddSingleton<Routes.RemoveItemFromBasket>();
         }
     }
 }

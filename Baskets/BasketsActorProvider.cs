@@ -1,30 +1,24 @@
 using Akka.Actor;
 using Akka.Routing;
+
 using BasketService.Core.Messaging;
+using BasketService.Products;
 
 namespace BasketService.Baskets
 {
     public class BasketsActorProvider
     {
-        private IActorRef BasketsActor { get; set; }
+        private IActorRef BasketsActorInstance { get; set; }
 
-        public BasketsActorProvider(ActorSystem actorSystem)
+        public BasketsActorProvider(ActorSystem actorSystem, ProductsActorProvider provider)
         {
-            var pool = new ConsistentHashingPool(10).WithHashMapping(o =>
-            {
-                if (o is IEnvelopeWithCustomerId)
-                    return ((IEnvelopeWithCustomerId)o).CustomerId;
-
-                return null;
-            });
-
-            this.BasketsActor = actorSystem.ActorOf(Props.Create<BasketActor>()
-                .WithRouter(pool), "baskets");
+            var productsActor = provider.Get();
+            this.BasketsActorInstance = actorSystem.ActorOf(BasketsActor.Props(productsActor), "baskets");
         }
 
         public IActorRef Get()
         {
-            return this.BasketsActor;
+            return this.BasketsActorInstance;
         }
     }
 }

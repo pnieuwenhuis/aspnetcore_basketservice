@@ -7,9 +7,9 @@ namespace BasketService.Products.Routes
 {
     public class GetAllProducts
     {
-        private ILogger<GetProduct> Logger { get; set; }
+        private ILogger<GetAllProducts> Logger { get; set; }
         private IActorRef ProductsActor { get; set; }
-        public GetAllProducts(ProductsActorProvider provider, ILogger<GetProduct> logger)
+        public GetAllProducts(ProductsActorProvider provider, ILogger<GetAllProducts> logger)
         {
             this.Logger = logger;
             this.ProductsActor = provider.Get();

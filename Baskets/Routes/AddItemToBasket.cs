@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 using Akka.Actor;
+using System;
 using System.Threading.Tasks;
 
 namespace BasketService.Baskets.Routes
@@ -15,9 +17,28 @@ namespace BasketService.Baskets.Routes
             this.BasketsActor = provider.Get();
         }
 
-        public async Task<Basket> Execute(int customerId, int productId, int amount) {
+        public async Task<IActionResult> Execute(int customerId, int productId, int amount)
+        {
             Logger.LogInformation($"Adding {amount} of product '{productId}' to basket for customer '{customerId}'");
-            return await this.BasketsActor.Ask<Basket>(new BasketActor.GetBasket { CustomerId = customerId });
+            var result = await this.BasketsActor.Ask<BasketActor.BasketEvent>(new BasketActor.AddItemToBasket {
+                CustomerId = customerId,
+                ProductId = productId,
+                Amount = amount
+            });
+
+            if (result is BasketActor.ItemAdded)
+            {
+                var e = result as BasketActor.ItemAdded;
+                return new CreatedResult($"/api/baskets/{customerId}/", e.BasketItemId);
+            }
+            else if (result is BasketActor.ProductNotFound || result is BasketActor.NotInStock)
+            {
+                return new BadRequestResult();
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
     }
 }

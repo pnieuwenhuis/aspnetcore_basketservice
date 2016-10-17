@@ -12,19 +12,8 @@ namespace BasketService.Products
             // Set sample products
             this.Products = SampleData.Get();
 
-            Receive<GetProduct>(m => Sender.Tell(GetProductAction(m)));
             Receive<GetAllProducts>(_ => Sender.Tell(this.Products));
             Receive<UpdateStock>(m => Sender.Tell(UpdateStockAction(m)));
-        }
-
-        public ProductEvent GetProductAction(GetProduct message)
-        {
-            var product = this.Products
-                .FirstOrDefault(p => p.Id == message.ProductId);
-
-            return product is Product ?
-                new ProductFound { Product = product } as ProductEvent :
-                new ProductNotFound() as ProductEvent;
         }
 
         public ProductEvent UpdateStockAction(UpdateStock message)
@@ -37,7 +26,7 @@ namespace BasketService.Products
                 if (product.InStock + message.AmountChanged >= 0)
                 {
                     product.InStock += message.AmountChanged;
-                    return new StockUpdated { InStock = product.InStock };
+                    return new StockUpdated { Product = product };
                 }
                 else
                 {

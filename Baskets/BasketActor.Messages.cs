@@ -1,3 +1,4 @@
+using System;
 using BasketService.Core.Messaging;
 
 namespace BasketService.Baskets
@@ -12,6 +13,11 @@ namespace BasketService.Baskets
             public int CustomerId { get; set; }
             public int ProductId { get; set; }
             public int Amount { get; set; }
+        }
+
+        public class RemoveItemFromBasket : IEnvelopeWithCustomerId {
+            public int CustomerId { get; set; }
+            public Guid BasketItemId { get; set; }
         }
     }
 }

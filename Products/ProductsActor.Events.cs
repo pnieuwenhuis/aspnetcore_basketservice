@@ -13,7 +13,7 @@ namespace BasketService.Products
 
         public class StockUpdated : ProductEvent
         {
-            public int InStock { get; set; }
+            public Product Product { get; set; }
         }
 
         public class InsuffientStock : ProductEvent {}

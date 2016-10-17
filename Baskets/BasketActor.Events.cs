@@ -13,5 +13,9 @@ namespace BasketService.Baskets
 
         public class NotInStock : BasketEvent {}
         public class ProductNotFound : BasketEvent {}
+
+        public class ItemRemoved : BasketEvent {}
+
+        public class ItemNotFound : BasketEvent {}
     }
 }

@@ -26,7 +26,7 @@ namespace BasketService.Products
                 if (product.InStock + message.AmountChanged >= 0)
                 {
                     product.InStock += message.AmountChanged;
-                    return new StockUpdated { Product = product };
+                    return new StockUpdated(product);
                 }
                 else
                 {

@@ -13,9 +13,9 @@ namespace BasketService.Baskets
             this.ProductActor = productActor;
 
             ReceiveAny(m => {
-                if (m is IEnvelopeWithCustomerId)
+                if (m is MessageWithCustomerId)
                 {
-                    var envelope = m as IEnvelopeWithCustomerId;
+                    var envelope = m as MessageWithCustomerId;
                     var basketActor = Context.Child(envelope.CustomerId.ToString()) is Nobody ?
                         Context.ActorOf(BasketActor.Props(this.ProductActor), envelope.CustomerId.ToString()) :
                         Context.Child(envelope.CustomerId.ToString());

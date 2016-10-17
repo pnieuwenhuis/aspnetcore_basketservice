@@ -8,7 +8,12 @@ namespace BasketService.Baskets
 
         public class ItemAdded : BasketEvent
         {
-            public Guid BasketItemId { get; set; }
+            public readonly Guid BasketItemId;
+
+            public ItemAdded(Guid basketItemId = new Guid()) 
+            {
+                this.BasketItemId = basketItemId;
+            }
         }
 
         public class NotInStock : BasketEvent {}

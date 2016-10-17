@@ -20,11 +20,11 @@ namespace BasketService.Baskets.Routes
         public async Task<IActionResult> Execute(int customerId, int productId, int amount)
         {
             Logger.LogInformation($"Adding {amount} of product '{productId}' to basket for customer '{customerId}'");
-            var result = await this.BasketsActor.Ask<BasketActor.BasketEvent>(new BasketActor.AddItemToBasket {
-                CustomerId = customerId,
-                ProductId = productId,
-                Amount = amount
-            });
+            var result = await this.BasketsActor.Ask<BasketActor.BasketEvent>(new BasketActor.AddItemToBasket(
+                customerId,
+                productId,
+                amount
+            ));
 
             if (result is BasketActor.ItemAdded)
             {

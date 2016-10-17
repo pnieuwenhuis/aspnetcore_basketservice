@@ -11,7 +11,7 @@ namespace BasketService
         public string System { get; set; }
         public string Microsoft { get; set; }
 
-        public string BasketService { get; set ;}
+        public string BasketService { get; set; }
     }
 
     public class Logging

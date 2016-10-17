@@ -17,7 +17,7 @@ namespace BasketService.Baskets.Routes
 
         public async Task<Basket> Execute(int customerId) {
             Logger.LogInformation($"Requesting basket of customer '{customerId}'");
-            return await this.BasketsActor.Ask<Basket>(new BasketActor.GetBasket { CustomerId = customerId });
+            return await this.BasketsActor.Ask<Basket>(new BasketActor.GetBasket(customerId));
         }
     }
 }

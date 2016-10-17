@@ -20,10 +20,10 @@ namespace BasketService.Baskets.Routes
         public async Task<IActionResult> Execute(int customerId, Guid basketItemId)
         {
             Logger.LogInformation($"Removing item {basketItemId} from basket of customer {customerId}");
-            var result = await this.BasketsActor.Ask<BasketActor.BasketEvent>(new BasketActor.RemoveItemFromBasket {
-                CustomerId = customerId,
-                BasketItemId = basketItemId
-            });
+            var result = await this.BasketsActor.Ask<BasketActor.BasketEvent>(new BasketActor.RemoveItemFromBasket(
+                customerId,
+                basketItemId
+            ));
 
             if (result is BasketActor.ItemRemoved)
             {

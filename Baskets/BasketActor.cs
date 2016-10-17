@@ -28,10 +28,10 @@ namespace BasketService.Baskets
         public async Task<BasketEvent> AddItemToBasketAction(AddItemToBasket message)
         {
             var productActorResult = await this.ProductsActorRef.Ask<ProductsActor.ProductEvent>(
-                new ProductsActor.UpdateStock {
-                    ProductId = message.ProductId,
-                    AmountChanged = -message.Amount
-                }
+                new ProductsActor.UpdateStock(
+                    productId: message.ProductId,
+                    amountChanged: -message.Amount
+                )
             );
 
             if (productActorResult is ProductsActor.StockUpdated)
@@ -43,7 +43,9 @@ namespace BasketService.Baskets
                 {
                     // Add to existing basket item
                     existingBasketItemWithProduct.Amount += message.Amount;
-                    return new ItemAdded { BasketItemId = existingBasketItemWithProduct.Id };
+                    return new ItemAdded(
+                        basketItemId: existingBasketItemWithProduct.Id
+                    );
                 }
                 else
                 {
@@ -58,7 +60,7 @@ namespace BasketService.Baskets
                         Amount = message.Amount
                     });
 
-                    return new ItemAdded { BasketItemId = basketItemId };
+                    return new ItemAdded(basketItemId);
                 }
             }
             else if (productActorResult is ProductsActor.ProductNotFound)

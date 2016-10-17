@@ -6,14 +6,24 @@ namespace BasketService.Products
 
         public class ProductFound : ProductEvent
         {
-            public Product Product { get; set; }
+            public readonly Product Product;
+
+            public ProductFound(Product product) 
+            {
+                this.Product = product;
+            }
         }
 
         public class ProductNotFound : ProductEvent {}
 
         public class StockUpdated : ProductEvent
         {
-            public Product Product { get; set; }
+            public readonly Product Product;
+
+            public StockUpdated(Product product)
+            {
+                this.Product = product;
+            }
         }
 
         public class InsuffientStock : ProductEvent {}

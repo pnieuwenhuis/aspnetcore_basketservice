@@ -7,10 +7,9 @@ namespace BasketService.Products
     public partial class ProductsActor : ReceiveActor
     {
         private IEnumerable<Product> Products { get; set; }
-        public ProductsActor()
+        public ProductsActor(IEnumerable<Product> products)
         {
-            // Set sample products
-            this.Products = SampleData.Get();
+            this.Products = products;
 
             Receive<GetAllProducts>(_ => Sender.Tell(this.Products));
             Receive<UpdateStock>(m => Sender.Tell(UpdateStockAction(m)));

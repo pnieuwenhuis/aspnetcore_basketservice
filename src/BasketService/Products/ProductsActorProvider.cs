@@ -8,7 +8,8 @@ namespace BasketService.Products
 
         public ProductsActorProvider(ActorSystem actorSystem)
         {
-            this.ProductsActor = actorSystem.ActorOf(Props.Create<ProductsActor>(), "products");
+            var products = SampleData.Get(); // set sample products
+            this.ProductsActor = actorSystem.ActorOf(Props.Create<ProductsActor>(products), "products");
         }
 
         public IActorRef Get()

@@ -8,7 +8,7 @@ namespace BasketService.Baskets
 {
     public partial class BasketActor : ReceiveActor
     {
-        private Basket BasketState { get; set; }
+        public Basket BasketState { get; set; }
         private IActorRef ProductsActorRef { get; set; }
         public BasketActor(IActorRef productsActor)
         {

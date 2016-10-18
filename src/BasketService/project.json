@@ -18,6 +18,7 @@
                 "Microsoft.AspNetCore.Mvc.Formatters.Json": "1.0.1",
                 "Serilog.Extensions.Logging": "1.2.0",
                 "Serilog.Sinks.Literate": "2.0.0",
+                "xunit": "2.2.0-beta3-build3402",
                 "Microsoft.NETCore.App": {
                     "type": "platform",
                     "version": "1.0.1"

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace BasketService.Products
 {
-    public static class SampleData {
+    public class SampleData {
         public static IEnumerable<Product> Get()
         {
             return new List<Product> {

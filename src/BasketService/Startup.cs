@@ -17,14 +17,6 @@ namespace BasketService
 
         public Startup(IHostingEnvironment env)
         {
-            // Read configuration
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables()
-                .SetBasePath(env.ContentRootPath);
-
-            Configuration = builder.Build();
-
             // Setup logging
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
@@ -36,7 +28,6 @@ namespace BasketService
             services.AddMvcCore()
                     .AddJsonFormatters();
 
-            services.Configure<AppConfiguration>(options => this.Configuration.Bind(options));
             services.AddSingleton<ActorSystem>(_ => ActorSystem.Create("basketservice"));
 
             services.AddBasketServices();

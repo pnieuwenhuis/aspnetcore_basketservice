@@ -3,7 +3,6 @@ namespace BasketService.Products
     public partial class ProductsActor
     {
         public abstract class ProductEvent {}
-
         public class ProductFound : ProductEvent
         {
             public readonly Product Product;
@@ -15,7 +14,6 @@ namespace BasketService.Products
         }
 
         public class ProductNotFound : ProductEvent {}
-
         public class StockUpdated : ProductEvent
         {
             public readonly Product Product;
@@ -25,7 +23,6 @@ namespace BasketService.Products
                 this.Product = product;
             }
         }
-
         public class InsuffientStock : ProductEvent {}
     }
 }

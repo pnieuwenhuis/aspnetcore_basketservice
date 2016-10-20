@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Akka.Actor;
 
@@ -6,12 +7,12 @@ namespace BasketService.Products
 {
     public partial class ProductsActor : ReceiveActor
     {
-        private IEnumerable<Product> Products { get; set; }
-        public ProductsActor(IEnumerable<Product> products)
+        private IList<Product> Products { get; set; }
+        public ProductsActor(IList<Product> products)
         {
             this.Products = products;
 
-            Receive<GetAllProducts>(_ => Sender.Tell(this.Products));
+            Receive<GetAllProducts>(_ => Sender.Tell(new ReadOnlyCollection<Product>(this.Products)));
             Receive<UpdateStock>(m => Sender.Tell(UpdateStockAction(m)));
         }
 

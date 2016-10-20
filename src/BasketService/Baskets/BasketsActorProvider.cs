@@ -1,7 +1,4 @@
 using Akka.Actor;
-using Akka.Routing;
-
-using BasketService.Core.Messaging;
 using BasketService.Products;
 
 namespace BasketService.Baskets

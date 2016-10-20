@@ -16,7 +16,7 @@ namespace BasketService.Baskets
             this.ProductsActorRef = productsActor;
 
             Receive<GetBasket>(_ => Sender.Tell(this.BasketState));
-            ReceiveAsync<AddItemToBasket>(m => AddItemToBasketAction(m).PipeTo(Sender));
+            ReceiveAsync<AddItemToBasket>(m => AddItemToBasketAction(m).PipeTo(Sender), m => m.Amount > 0);
             Receive<RemoveItemFromBasket>(m => Sender.Tell(RemoveItemToBasketAction(m)));
         }
 
@@ -37,31 +37,7 @@ namespace BasketService.Baskets
             if (productActorResult is ProductsActor.StockUpdated)
             {
                 var product = ((ProductsActor.StockUpdated)productActorResult).Product;
-
-                var existingBasketItemWithProduct = this.BasketState.Items.Find(item => item.ProductId == product.Id);
-                if (existingBasketItemWithProduct is BasketItem)
-                {
-                    // Add to existing basket item
-                    existingBasketItemWithProduct.Amount += message.Amount;
-                    return new ItemAdded(
-                        basketItemId: existingBasketItemWithProduct.Id
-                    );
-                }
-                else
-                {
-                    // Create a new basket item
-                    var basketItemId = Guid.NewGuid();
-                    this.BasketState.Items.Add(new BasketItem {
-                        Id = basketItemId,
-                        ProductId = product.Id,
-                        Title = product.Title,
-                        Brand = product.Brand,
-                        PricePerUnit = product.PricePerUnit,
-                        Amount = message.Amount
-                    });
-
-                    return new ItemAdded(basketItemId);
-                }
+                return AddToBasket(product, message.Amount) as ItemAdded;
             }
             else if (productActorResult is ProductsActor.ProductNotFound)
             {
@@ -88,6 +64,34 @@ namespace BasketService.Baskets
             else
             {
                 return new ItemNotFound();
+            }
+        }
+
+        private ItemAdded AddToBasket(Product productToAdd, int amount)
+        {
+            var existingBasketItemWithProduct = this.BasketState.Items.Find(item => item.ProductId == productToAdd.Id);
+            if (existingBasketItemWithProduct is BasketItem)
+            {
+                // Add to existing basket item
+                existingBasketItemWithProduct.Amount += amount;
+                return new ItemAdded(
+                    basketItemId: existingBasketItemWithProduct.Id
+                );
+            }
+            else
+            {
+                // Create a new basket item
+                var basketItemId = Guid.NewGuid();
+                this.BasketState.Items.Add(new BasketItem {
+                    Id = basketItemId,
+                    ProductId = productToAdd.Id,
+                    Title = productToAdd.Title,
+                    Brand = productToAdd.Brand,
+                    PricePerUnit = productToAdd.PricePerUnit,
+                    Amount = amount
+                });
+
+                return new ItemAdded(basketItemId);
             }
         }
     }

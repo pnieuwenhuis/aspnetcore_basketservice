@@ -11,6 +11,7 @@ namespace BasketService
             var host = new WebHostBuilder()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseKestrel()
+                .UseUrls("http://*:5000")
                 .UseStartup<Startup>()
                 .Build();
 

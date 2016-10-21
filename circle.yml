@@ -11,11 +11,12 @@ dependencies:
 
 test:
   override:
+    - cd src/BasketService && dotnet restore
     - cd test/BasketServiceTests && dotnet restore && dotnet test
 
 deployment:
   staging:
     branch: master
     commands:
-      - cd src/BasketService && dotnet restore && dotnet publish -c release
+      - cd src/BasketService && dotnet publish -c release
       - docker build . 

@@ -16,7 +16,9 @@ test:
 
 deployment:
   staging:
-    branch: master
+    branch: circleci
     commands:
       - cd src/BasketService && dotnet publish -c release
-      - docker build . 
+      - docker build -t pnieuwenhuis/aspnetcore_basketservice:latest . 
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push pnieuwenhuis/aspnetcore_basketservice:latest

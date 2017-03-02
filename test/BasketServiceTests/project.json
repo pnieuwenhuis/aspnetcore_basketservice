@@ -5,8 +5,9 @@
   },
   "dependencies": {
     "System.Runtime.Serialization.Primitives": "4.1.1",
-    "Akka.TestKit.Xunit2": "1.2.0-alpha1",
-    "xunit": "2.2.0-beta3-build3402",
+    "Akka.TestKit": "1.2.0-alpha9",
+    "Akka.TestKit.Xunit2": "1.2.0-alpha9",
+    "xunit": "2.2.0-beta4-build3444",
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
     "BasketService": {
       "target": "project"
